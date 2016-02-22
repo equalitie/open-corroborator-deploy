@@ -1,0 +1,26 @@
+---
+
+- name: Install Node packages
+  apt: name={{ item }} state=installed
+  with_items:
+    - nodejs
+    - npm
+    - nodejs-legacy
+  tags: packages
+
+- name: Install NPM packages
+  npm: name={{ item }} global=yes
+  with_items:
+    - grunt-cli 
+    - karma
+  tags: packages
+
+- name: Run collectstatic
+  django_manage:
+    command: collectstatic --clear --noinput
+    app_path: "{{ app_path }}/bin"
+    virtualenv: "{{ app_path }}"
+    settings: "{{ project_name }}.settings.{{ deploy_env }}"
+  sudo: yes
+  sudo_user: django
+  when: run_collectstatic

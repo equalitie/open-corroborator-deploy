@@ -1,0 +1,11 @@
+---
+
+ deploy_env: vm
+
+ backend_ip: 10.33.33.4
+
+ server_name: demo.corroborator.org
+ 
+ # TODO move to vault
+ db_password: password
+ 

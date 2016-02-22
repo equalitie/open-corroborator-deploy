@@ -1,0 +1,51 @@
+---
+
+- name: Ensure bash, OpenSSl, and libssl are the latest versions
+  apt: name={{ item }} update_cache=yes state=latest
+  with_items:
+    - bash
+    - openssl
+    - libssl-dev
+    - libssl-doc
+  tags: packages
+
+- name: Install base packages
+  apt: name={{ item }} state=installed
+  with_items:
+    - python-dev
+    - python-pip
+    - python-celery
+    - python-mysqldb
+    - libmysqlclient-dev 
+    - mysql-client
+    - libxslt-dev
+    - libgeos-c1
+
+    - git
+    - libjpeg-dev
+
+    - libevent-dev
+
+    - rabbitmq-server
+    
+    - ufw
+    - htop
+  tags: packages
+
+- name: Install virtualenv
+  pip: name=virtualenv
+  tags: packages
+
+#Move to db group later if needed
+- name: Install mysql packages
+  apt: name={{ item }} state=installed
+  with_items:
+    - mysql-server
+  tags: packages
+
+#Move to search group later if needed
+- name: Install packages for Solr
+  apt: name={{ item }} state=installed
+  with_items:
+    - openjdk-7-jdk
+  tags: packages

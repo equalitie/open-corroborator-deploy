@@ -1,0 +1,13 @@
+---
+
+- name: Add to sites-available
+  template:
+    src: apache.conf.j2
+    dest: "/etc/apache2/sites-available/{{ project_name }}.conf"
+  notify: Restart Apache
+
+- name: Enable site
+  command: a2ensite {{ project_name }}
+  notify:
+    - Restart Apache
+    - Restart Gunicorn

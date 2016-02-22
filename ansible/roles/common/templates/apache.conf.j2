@@ -1,0 +1,51 @@
+<VirtualHost *:80>
+    ServerName {{ server_name }}
+    # TODO ServerAdmin webmaster@
+
+    CustomLog /var/log/apache2/{{ project_name }}-access.log combined
+    ErrorLog /var/log/apache2/{{ project_name }}-error.log
+
+    # The default value for this is Off. It has an impact on the behaviour of
+    # the SERVER_NAME variable in rewrite rules and we don't want to be taken
+    # by surprise if the server default was changed. So we set it to Off even
+    # though it already is Off.
+    UseCanonicalName Off
+
+    #Header always set Strict-Transport-Security "max-age=63072000; includeSubDomains"
+    Header always set X-Frame-Options SAMEORIGIN
+    Header always set X-Content-Type-Options nosniff
+
+    <Location />
+        AllowOverride None
+        Require all granted
+    </Location>
+
+    Redirect /solr /solr/
+    <Location /solr/>
+        Order Deny,Allow
+        Deny from ALL
+        Allow from 127.0.0.1
+        ProxyPass http://localhost:8983/solr/
+        ProxyPassReverse http://localhost:8983/solr/
+    </Location>
+
+    Options -Indexes
+
+    ProxyPass /static !
+    Alias /static {{ app_path }}/var/static
+    ProxyPass /media !
+    Alias /media {{ app_path }}/var/media
+
+    # ProxyPass /robots.txt !
+    # Alias /robots.txt {{ app_path }}/var/static/robots.txt
+
+    # ProxyPass /favicon.ico !
+    # Alias /favicon.ico {{ app_path }}/var/static/images/favicon.ico
+
+
+    ProxyPass / http://localhost:8000/
+    ProxyPassReverse / http://localhost:8000/
+    ProxyPreserveHost On
+    ProxyRequests Off
+
+</VirtualHost>

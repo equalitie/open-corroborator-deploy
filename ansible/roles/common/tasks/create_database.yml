@@ -1,0 +1,8 @@
+---
+
+- name: Create Database User
+  mysql_user: name={{ db_user }} password={{ db_password }} priv=*.*:ALL,GRANT state=present
+
+- name: Create Database
+  mysql_db: name={{ db_name }} state=present
+

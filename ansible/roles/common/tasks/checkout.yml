@@ -1,0 +1,9 @@
+---
+
+- name: Checkout
+  sudo: no
+  git: repo="{{ git_url }}"
+    dest="{{ checkout_path }}/{{ project_name }}"
+    version="{{ git_version }}"
+    accept_hostkey=yes
+    force=yes

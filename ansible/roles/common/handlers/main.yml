@@ -1,0 +1,12 @@
+---
+
+- name: Restart Apache
+  service:
+    name: apache2
+    state: restarted
+
+- name: Restart Gunicorn
+  service:
+    name: corroborator-gunicorn
+    state: restarted
+    

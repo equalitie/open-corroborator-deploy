@@ -1,0 +1,27 @@
+---
+
+project_name: corroborator
+
+# Conditionals
+run_collectstatic: true
+
+# Repo
+# ====
+git_url: "https://github.com/equalitie/open-corroborator.git"
+git_version: "updatedemo"
+
+# Paths
+# =====
+checkout_path: "/var/local/checkouts"
+sites_path: "/var/local/sites"
+app_path: "{{ sites_path }}/{{ project_name }}"
+requirements_file: "{{ checkout_path }}/{{ project_name }}/requirements.txt"
+
+# Database
+# ========
+db_user: "django"
+#db_password:
+db_host: "{{ backend_internal_ip }}"
+db_name: "{{ project_name }}_{{ deploy_env }}"
+
+

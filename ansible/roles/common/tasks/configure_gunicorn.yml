@@ -1,0 +1,8 @@
+---
+
+- name: Ensure gunicorn is installed
+  pip: virtualenv={{ app_path }} name=gunicorn
+
+- name: Configure Gunicorn
+  template: src=upstart.conf.j2 dest="/etc/init/{{ project_name }}-gunicorn.conf"
+  notify: Restart Gunicorn

@@ -1,0 +1,24 @@
+---
+
+- name: Create Django group
+  group: name=django
+
+- name: Create Django user
+  user: name=django group=django
+
+- name: Create checkout directory
+  file: path={{ checkout_path }} state=directory owner={{ ansible_ssh_user }} recurse=yes
+
+- name: Create app directories
+  file: path={{ item }} state=directory owner=django group=django
+  with_items:
+    - "{{ app_path }}"
+    - "{{ app_path }}/var"
+    - "{{ app_path }}/etc"
+    - "/var/log/{{ project_name }}"
+
+- name: Create log files
+  copy: content="" dest={{ item }} owner=django group=django mode=0640
+  with_items:
+    - "/var/log/{{ project_name }}/django.log"
+    - "/var/log/{{ project_name }}/celery.log"
