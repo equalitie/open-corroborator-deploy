@@ -1,0 +1,117 @@
+---
+
+- name: Download Solr
+  get_url:
+    dest: "{{ checkout_path }}/{{ project_name }}/{{ solr_download_file }}"
+    sha256sum: "{{ solr_download_checksum }}"
+    url: "{{ solr_download_url }}"
+
+- name: Unpack Solr distribution
+  unarchive:
+    copy: no
+    creates: "{{ solr_checkout_path }}/CHANGES.txt"
+    src: "{{ checkout_path }}/{{ project_name }}/{{ solr_download_file }}"
+    dest: "{{ checkout_path }}/{{ project_name }}"
+    group: django
+    owner: django
+
+- name: Remove old Solr
+  file:
+    path: /usr/share/solr/*
+    state: absent
+
+- name: Unpack Solr war file
+  unarchive:
+    copy: no
+    src: "{{ solr_checkout_path }}/dist/solr-{{ solr_version }}.war"
+    dest: /usr/share/solr/
+    group: jetty
+    owner: jetty
+  notify: Restart Jetty
+
+- name: Link Solr to Jetty
+  file:
+    src: /usr/share/solr/
+    dest: /usr/share/jetty/webapps/solr
+    state: link
+    group: jetty
+    owner: jetty
+  notify: Restart Jetty
+
+- name: Copy Solr logging module jars to Jetty
+  shell: "cp -a {{ solr_checkout_path }}/example/lib/ext/* /usr/share/jetty/lib/ext/"
+  notify: Restart Jetty
+
+- name: Copy Solr logging module jars to solr WEB-INF (needed in Jetty 6)
+  shell: "cp -a {{ solr_checkout_path }}/example/lib/ext/* /usr/share/solr/WEB-INF/lib/"
+  notify: Restart Jetty
+
+- name: Copy Solr cores Jetty conf
+  template:
+    dest: /usr/share/solr/solr.xml
+    src: solr.xml.j2
+    owner: jetty
+    group: jetty
+  notify: Restart Jetty
+
+- name: Copy Solr jars
+  command: "cp -a {{ solr_checkout_path }}/{{ item }} /usr/share/solr"
+  with_items:
+    - contrib
+    - dist
+  notify: Restart Jetty
+
+# Single core search schema
+- name: Copy core conf to Solr
+  shell: "cp -v -a -R {{ solr_checkout_path }}/example/solr/collection1/conf /usr/share/solr/{{ project_name }}-search/conf creates=/usr/share/solr/{{ project_name }}-search/conf"
+  notify: Restart Jetty
+
+- name: Copy core schema to Solr
+  shell: "cp -v -a {{ checkout_path }}/{{ project_name }}/conf/solr.schema.demo.xml /usr/share/solr/{{ project_name }}-search/conf/schema.xml"
+  notify: Restart Jetty
+
+- name: Set owner of Solr core conf
+  file:
+    path: /usr/share/solr/{{ project_name }}-search/conf
+    owner: jetty
+    group: jetty
+    state: directory
+    recurse: yes
+  notify: Restart Jetty
+
+- name: Copy Solr/Jetty basic auth config
+  template:
+    dest: /usr/share/solr/WEB-INF/web.xml
+    src: web.xml.j2
+    owner: jetty
+    group: jetty
+  notify: Restart Jetty
+
+- name: Copy Jetty conf
+  template:
+    dest: /etc/default/jetty
+    src: jetty.j2
+    owner: jetty
+    group: jetty
+  notify: Restart Jetty
+
+- name: Copy Jetty JMX conf
+  template:
+    dest: /etc/jetty/jetty-jmx.xml
+    src: jetty-jmx.xml.j2
+    owner: jetty
+    group: jetty
+  notify: Restart Jetty
+
+- name: Enable JMX in Jetty jar conf
+  template:
+    dest: /etc/jetty/jetty.conf
+    src: jetty.conf.j2
+    owner: jetty
+    group: jetty
+  notify: Restart Jetty
+
+- name: Start Jetty
+  service:
+    name: jetty
+    state: started

@@ -3,10 +3,14 @@
 - include: install_packages.yml
 - include: create_dirs.yml
 - include: install_apache.yml
+
 - include: checkout.yml
 - include: install_app.yml
+
 - include: create_database.yml
+- include: populate_database.yml
+
 - include: configure_gunicorn.yml
 - include: configure_site.yml
 - include: configure_static.yml
-- include: populate_database.yml
+

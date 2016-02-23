@@ -1,0 +1,15 @@
+---
+
+- name: Create Jetty group
+  group: name=jetty
+
+- name: Create Jetty user
+  user: name=jetty group=jetty
+
+- name: Create Solr directories
+  file: path={{ item }} state=directory owner=jetty group=jetty recurse=yes
+  with_items:
+    - "/usr/share/solr"
+    - "/var/local/solr"
+    - "/var/local/solr/{{ project_name }}-search"
+    - "/var/local/solr/{{ project_name }}-search/data"

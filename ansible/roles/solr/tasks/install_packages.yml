@@ -1,0 +1,11 @@
+---
+
+- name: Install packages for Solr
+  apt: name={{ item }} state=installed
+  with_items:
+    - openjdk-7-jdk
+    - jetty
+    - libjetty-extra
+    - unzip
+  tags: packages
+  notify: Restart Jetty

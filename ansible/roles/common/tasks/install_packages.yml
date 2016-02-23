@@ -14,7 +14,7 @@
   with_items:
     - python-dev
     - python-pip
-    - python-celery
+    #- python-celery
     - python-mysqldb
     - libmysqlclient-dev 
     - mysql-client
@@ -41,11 +41,4 @@
   apt: name={{ item }} state=installed
   with_items:
     - mysql-server
-  tags: packages
-
-#Move to search group later if needed
-- name: Install packages for Solr
-  apt: name={{ item }} state=installed
-  with_items:
-    - openjdk-7-jdk
   tags: packages

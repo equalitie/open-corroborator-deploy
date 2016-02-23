@@ -9,4 +9,3 @@
   service:
     name: corroborator-gunicorn
     state: restarted
-    
