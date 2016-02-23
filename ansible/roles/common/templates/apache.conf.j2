@@ -32,15 +32,15 @@
     Options -Indexes
 
     ProxyPass /static !
-    Alias /static {{ app_path }}/var/static
+    Alias /static {{ checkout_path}}/{{ project_name }}/static
     ProxyPass /media !
     Alias /media {{ app_path }}/var/media
 
     # ProxyPass /robots.txt !
-    # Alias /robots.txt {{ app_path }}/var/static/robots.txt
+    # Alias /robots.txt {{ checkout_path }}/{{ project_name }}/static/robots.txt
 
     # ProxyPass /favicon.ico !
-    # Alias /favicon.ico {{ app_path }}/var/static/images/favicon.ico
+    # Alias /favicon.ico {{ checkout_path }}/{{ project_name }}/static/images/favicon.ico
 
 
     ProxyPass / http://localhost:8000/

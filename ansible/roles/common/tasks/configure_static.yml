@@ -15,12 +15,3 @@
     - karma
   tags: packages
 
-- name: Run collectstatic
-  django_manage:
-    command: collectstatic --clear --noinput
-    app_path: "{{ app_path }}/bin"
-    virtualenv: "{{ app_path }}"
-    settings: "{{ project_name }}.settings.{{ deploy_env }}"
-  sudo: yes
-  sudo_user: django
-  when: run_collectstatic

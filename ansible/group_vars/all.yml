@@ -4,6 +4,7 @@ project_name: corroborator
 
 # Conditionals
 run_collectstatic: true
+load_fixtures: true
 
 # Repo
 # ====

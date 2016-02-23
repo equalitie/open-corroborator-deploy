@@ -9,3 +9,4 @@
 - include: configure_gunicorn.yml
 - include: configure_site.yml
 - include: configure_static.yml
+- include: populate_database.yml

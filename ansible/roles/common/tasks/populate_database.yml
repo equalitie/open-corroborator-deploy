@@ -1,0 +1,35 @@
+---
+
+- name: Run the syncdb command
+  django_manage:
+    command: syncdb
+    app_path: "{{ app_path }}/bin"
+    virtualenv: "{{ app_path }}"
+    settings: "{{ project_name }}.settings.{{ deploy_env }}"
+
+- name: Run South migrations
+  django_manage:
+    command: migrate
+    app_path: "{{ app_path }}/bin"
+    virtualenv: "{{ app_path }}"
+    settings: "{{ project_name }}.settings.{{ deploy_env }}"
+
+#for now, but we need more fixtures...
+- name: Load fixtures
+  django_manage: 
+    command: loaddata
+    fixtures: "{{ checkout_path }}/{{ project_name }}/corroborator_app/fixtures/{{ item }}"
+    app_path: "{{ app_path }}/bin" 
+    virtualenv: "{{ app_path }}"
+    settings: "{{ project_name }}.settings.{{ deploy_env }}"
+  with_items:
+    - admin_user.json
+    - status_update.json
+  when: load_fixtures
+  
+- name: Create API key
+  django_manage:
+    command: backfill_api_keys
+    app_path: "{{ app_path }}/bin"
+    virtualenv: "{{ app_path }}"
+    settings: "{{ project_name }}.settings.{{ deploy_env }}"
