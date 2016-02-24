@@ -1,0 +1,15 @@
+---
+
+- name: Configure firewall default policy
+  ufw: state=enabled policy=deny direction=incoming
+  
+- name: Configure firewall
+  ufw: rule=allow port={{ item }}
+  with_items:
+    - ssh
+    - 2222
+    - http
+    - https
+
+    #todo: 8983 for dev
+
