@@ -10,6 +10,7 @@
   file: path={{ item }} state=directory owner=jetty group=jetty recurse=yes
   with_items:
     - "/usr/share/solr"
+    - "/usr/share/solr/{{ project_name }}-search"
     - "/var/local/solr"
     - "/var/local/solr/{{ project_name }}-search"
     - "/var/local/solr/{{ project_name }}-search/data"
