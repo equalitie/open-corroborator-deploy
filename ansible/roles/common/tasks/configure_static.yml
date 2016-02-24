@@ -15,3 +15,5 @@
     - karma
   tags: packages
 
+- name: Copy checkout static into site
+  shell: "cp -a -R {{ checkout_path }}/{{ project_name }}/static {{ app_path }}/static creates={{ app_path }}/static"
