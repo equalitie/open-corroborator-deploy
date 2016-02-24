@@ -28,7 +28,7 @@ JETTY_PORT=8983
 #JETTY_ARGS=
 
 # Extra options to pass to the JVM
-JAVA_OPTIONS="-Xmx5g -Xms2048m -Djava.awt.headless=true"
+JAVA_OPTIONS="-Xmx{{ solr_java_xmx }} -Xms{{ solr_java_xms }} -Djava.awt.headless=true"
 JAVA_OPTIONS="-Dsolr.solr.home=/usr/share/solr $JAVA_OPTIONS"
 
 # Home of Jav:Qa installation.

@@ -27,11 +27,13 @@ db_name: "{{ project_name }}_{{ deploy_env }}"
 
 # Solr
 # ====
-solr_version: "4.10.4"   #"4.9.1"
+solr_version: "4.10.4"
 solr_download_file: "solr-{{ solr_version }}.tgz"
 solr_download_url: "http://archive.apache.org/dist/lucene/solr/{{ solr_version }}/{{ solr_download_file }}"
-solr_download_checksum: "ac3543880f1b591bcaa962d7508b528d7b42e2b5548386197940b704629ae851"  #"d03e9daf33df80bae4a37f88525fe19084a4502e8b38a02d7a60e2bc436076e8"
+solr_download_checksum: "ac3543880f1b591bcaa962d7508b528d7b42e2b5548386197940b704629ae851"
 solr_checkout_path: "{{ checkout_path }}/{{ project_name }}/solr-{{ solr_version }}"
+solr_java_xmx: "4g"
+solr_java_xms: "2048m"
 
 jetty_version: "9.2.8.v20150217"
 jetty_download_file: "jetty-distribution-{{ jetty_version }}.tar.gz"
