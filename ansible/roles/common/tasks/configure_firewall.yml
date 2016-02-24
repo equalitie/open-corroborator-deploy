@@ -1,5 +1,11 @@
 ---
 
+- name: Install firewall packages
+  apt: name={{ item }} state=installed
+  with_items:
+    - ufw
+  tags: packages
+
 - name: Configure firewall default policy
   ufw: state=enabled policy=deny direction=incoming
   

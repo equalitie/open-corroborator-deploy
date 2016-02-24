@@ -26,9 +26,6 @@
 
     - libevent-dev
 
-    - rabbitmq-server
-    
-    - ufw
     - htop
   tags: packages
 

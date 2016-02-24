@@ -1,0 +1,8 @@
+---
+
+- name: Install RabbitMQ packages
+  apt: name={{ item }} state=installed
+  with_items:
+    - rabbitmq-server
+  tags: packages
+
