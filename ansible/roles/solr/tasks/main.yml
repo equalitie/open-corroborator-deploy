@@ -3,3 +3,5 @@
 - include: install_packages.yml
 - include: create_dirs.yml
 - include: install_solr.yml
+- include: populate_solr.yml
+

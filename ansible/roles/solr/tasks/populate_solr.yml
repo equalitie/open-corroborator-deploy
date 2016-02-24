@@ -1,0 +1,8 @@
+---
+
+- name: Run the rebuild_index command
+  django_manage:
+    command: rebuild_index --noinput
+    app_path: "{{ app_path }}/bin"
+    virtualenv: "{{ app_path }}"
+    settings: "{{ project_name }}.settings.{{ deploy_env }}"
