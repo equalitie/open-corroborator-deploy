@@ -1,0 +1,12 @@
+start on runlevel [2345]
+stop on runlevel [!2345]
+
+setuid django
+setgid django
+
+kill timeout 900
+respawn
+
+env DJANGO_SETTINGS_MODULE={{ project_name }}.settings.{{ deploy_env }}
+
+exec {{ app_path }}/bin/celery worker --events --time-limit 300 --concurrency 1 --hostname w1 --queues celery --loglevel DEBUG --logfile /var/log/{{ project_name }}/celery.log

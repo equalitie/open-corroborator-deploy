@@ -6,3 +6,12 @@
     - rabbitmq-server
   tags: packages
 
+- name: Configure Celery
+  template:
+    src=upstart-celery.conf.j2
+    dest="/etc/init/{{ project_name }}-celery.conf"
+
+- name: Ensure Celery is running
+  service:
+    name: "{{ project_name }}-celery"
+    state: restarted
