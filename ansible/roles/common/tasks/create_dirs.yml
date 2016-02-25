@@ -13,6 +13,7 @@
   file: path={{ item }} state=directory owner=django group=django
   with_items:
     - "{{ app_path }}"
+    - "{{ app_path }}/static"
     - "{{ app_path }}/var"
     - "{{ app_path }}/etc"
     - "/var/log/{{ project_name }}"

@@ -13,8 +13,7 @@
   apt: name={{ item }} state=installed
   with_items:
     - python-dev
-    - python-pip
-    #- python-celery
+    - python-virtualenv
     - python-mysqldb
     - libmysqlclient-dev 
     - mysql-client
@@ -27,10 +26,6 @@
     - libevent-dev
 
     - htop
-  tags: packages
-
-- name: Install virtualenv
-  pip: name=virtualenv
   tags: packages
 
 #Move to db group later if needed
