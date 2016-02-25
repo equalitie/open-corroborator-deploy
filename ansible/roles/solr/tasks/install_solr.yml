@@ -63,11 +63,11 @@
 
 # Single core search schema
 - name: Copy core conf to Solr
-  shell: "cp -v -a -R {{ solr_checkout_path }}/example/solr/collection1/conf /usr/share/solr/{{ project_name }}-search/conf creates=/usr/share/solr/{{ project_name }}-search/conf"
+  shell: "cp -a -R {{ solr_checkout_path }}/example/solr/collection1/conf /usr/share/solr/{{ project_name }}-search/conf creates=/usr/share/solr/{{ project_name }}-search/conf"
   notify: Restart Jetty
 
 - name: Copy core schema to Solr
-  shell: "cp -v -a {{ checkout_path }}/{{ project_name }}/conf/solr.schema.demo.xml /usr/share/solr/{{ project_name }}-search/conf/schema.xml"
+  shell: "cp -a {{ checkout_path }}/{{ project_name }}/conf/solr.schema.demo.xml /usr/share/solr/{{ project_name }}-search/conf/schema.xml"
   notify: Restart Jetty
 
 - name: Set owner of Solr core conf
