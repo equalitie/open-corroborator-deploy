@@ -15,6 +15,7 @@
     - "{{ app_path }}"
     - "{{ app_path }}/static"
     - "{{ app_path }}/var"
+    - "{{ app_path }}/var/media"
     - "{{ app_path }}/etc"
     - "/var/log/{{ project_name }}"
 
