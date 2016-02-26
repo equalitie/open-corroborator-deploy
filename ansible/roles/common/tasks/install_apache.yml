@@ -6,6 +6,7 @@
     - apache2
     - apache2-utils
     - libapache2-mod-wsgi
+    - libapache2-mod-xsendfile
   tags: packages
   notify: Restart Apache
 
@@ -19,6 +20,7 @@
     - status
     - wsgi
     - headers
+    - xsendfile
   notify: Restart Apache
 
 - name: Disable default site

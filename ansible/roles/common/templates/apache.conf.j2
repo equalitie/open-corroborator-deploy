@@ -35,6 +35,9 @@
     Alias /static {{ app_path }}/static 
     ProxyPass /media !
     Alias /media {{ app_path }}/var/media
+    
+    XSendFile On
+    XSendFilePath {{ app_path }}/var/media
 
     # ProxyPass /robots.txt !
     # Alias /robots.txt {{ app_path }}/static/robots.txt
