@@ -1,0 +1,12 @@
+---
+
+ deploy_env: demo
+
+ server_name: demo.corroborator.org
+ 
+ solr_java_xmx: "1g"
+ solr_java_xms: "512m"
+
+ # TODO move to vault
+ db_password: password
+ 
