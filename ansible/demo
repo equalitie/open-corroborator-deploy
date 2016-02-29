@@ -1,6 +1,6 @@
 [webservers]
 192.0.2.10
 
-[vm:children]
+[demo:children]
 webservers
 
