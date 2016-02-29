@@ -2,6 +2,8 @@
 
 project_name: corroborator
 
+backend_internal_ip: "127.0.0.1"
+
 # Conditionals
 run_collectstatic: yes
 load_fixtures: yes
