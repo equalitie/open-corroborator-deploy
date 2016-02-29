@@ -33,8 +33,10 @@
 
     ProxyPass /static !
     Alias /static {{ app_path }}/static 
-    ProxyPass /media !
-    Alias /media {{ app_path }}/var/media
+    
+    # Note: not used: media goes via auth proxy and is then served via XSendFile or S3
+    # ProxyPass /media !
+    # Alias /media {{ app_path }}/var/media
     
     XSendFile On
     XSendFilePath {{ app_path }}/var/media
