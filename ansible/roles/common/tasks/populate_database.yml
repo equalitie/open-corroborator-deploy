@@ -25,6 +25,9 @@
   with_items:
     - admin_user.json
     - status_update.json
+    - auth.json
+    - demo_user.json
+    - crimes.json
   when: load_fixtures
   
 - name: Create API key
