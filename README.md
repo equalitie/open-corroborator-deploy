@@ -69,6 +69,7 @@ In the open-corroborator project:
  * create a Django settings file, corroborator/settings/ENV.py, to give the media locations, initial (non-secret) database password, etc.
  
 By default, uploaded media files are stored and served from the local disk. To store them in Amazon S3, set `QUEUED_STORAGE=True` in the Django settings file and set the `AWS_ACCESS_KEY_ID` and `AWS_STORAGE_BUCKET_NAME`).
+If PROD_BUILD is set to True (to use a prebuilt javascript file), you should also set the Ansible variable `run_grunt: yes` (to make sure the file is rebuilt on the server)
 
 ### Deploy
 ```

@@ -4,7 +4,7 @@
 
  server_name: vm.corroborator.org
  
- run_grunt: no
+ run_grunt: yes
  
  # TODO move to vault
  db_password: password

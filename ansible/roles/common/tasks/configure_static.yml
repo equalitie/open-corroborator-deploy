@@ -1,5 +1,9 @@
 ---
 
+- name: Remove node_modules (so collectstatic doesn't fail to remove it)
+  file: path={{ app_path }}/static/js/node_modules state=absent
+  when: run_collectstatic
+
 - name: Run collectstatic
   django_manage:
     command: collectstatic --clear --noinput --no-default-ignore
@@ -33,7 +37,7 @@
   with_items:
     -
   when: run_grunt
-
+  
 - name: Grunt build
   command: chdir={{ app_path }}/static/js grunt build
   when: run_grunt
