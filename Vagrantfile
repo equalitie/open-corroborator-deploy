@@ -7,7 +7,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.ssh.forward_agent = true
   
   config.vm.provider "virtualbox" do |v|
-    v.memory = 8192
+    v.memory = 4096
   end
 
   config.vm.define "server1" do |server|
