@@ -1,23 +1,8 @@
 ---
 
-- name: Install Node packages
-  apt: name={{ item }} state=installed
-  with_items:
-    - nodejs
-    - npm
-    - nodejs-legacy
-  tags: packages
-
-- name: Install NPM packages
-  npm: name={{ item }} global=yes
-  with_items:
-    - grunt-cli 
-    - karma
-  tags: packages
-
 - name: Run collectstatic
   django_manage:
-    command: collectstatic --clear --noinput
+    command: collectstatic --clear --noinput --no-default-ignore
     app_path: "{{ app_path }}/bin"
     virtualenv: "{{ app_path }}"
     settings: "{{ project_name }}.settings.{{ deploy_env }}"
@@ -25,3 +10,30 @@
   sudo_user: django
   when: run_collectstatic
 
+- name: Install Node packages
+  apt: name={{ item }} state=installed
+  with_items:
+    - nodejs
+    - npm
+    - nodejs-legacy
+  tags: packages
+  when: run_grunt
+
+- name: Upgrade NPM and install NPM build packages
+  npm: name={{ item }} global=yes
+  with_items:
+    - npm
+    - grunt-cli 
+    - karma
+  tags: packages
+  when: run_grunt
+  
+- name: Install NPM application packages
+  npm: path={{ app_path }}/static/js name={{ item }}
+  with_items:
+    -
+  when: run_grunt
+
+- name: Grunt build
+  command: chdir={{ app_path }}/static/js grunt build
+  when: run_grunt

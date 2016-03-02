@@ -86,7 +86,7 @@ Then make secure by setting the secret settings: login to the target machine and
    c. restart the services:
    
    ```
-   sudo service corroborator-gunicorn restart &&
+   sudo service corroborator-gunicorn restart
    sudo service corroborator-celery restart
    ```
 

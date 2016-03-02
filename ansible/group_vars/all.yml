@@ -7,6 +7,8 @@ backend_internal_ip: "127.0.0.1"
 # Conditionals
 run_collectstatic: yes
 load_fixtures: yes
+run_grunt: no  #note: set to yes if PROD_BUILD setting is True
+
 
 # Repo
 # ====
