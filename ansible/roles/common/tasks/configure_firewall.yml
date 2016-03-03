@@ -13,7 +13,6 @@
   ufw: rule=allow port={{ item }}
   with_items:
     - ssh
-    - 2222
     - http
     - https
 
