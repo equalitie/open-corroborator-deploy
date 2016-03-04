@@ -10,6 +10,42 @@
     # by surprise if the server default was changed. So we set it to Off even
     # though it already is Off.
     UseCanonicalName Off
+    
+    RewriteEngine On
+    #todo remove RewriteRule /(.*)$ https://{{ server_name }}/$1 [R=permanent]
+    #todo remove RedirectMatch permanent /(.*)$ https://{{ server_name }}/$1
+    RewriteRule ^(.*)$ https://%{HTTP_HOST}$1 [R=permanent,L]
+</VirtualHost>
+
+<VirtualHost *:443>
+    ServerName {{ server_name }}
+    # TODO ServerAdmin webmaster@
+
+    CustomLog /var/log/apache2/{{ project_name }}-access.log combined
+    ErrorLog /var/log/apache2/{{ project_name }}-error.log
+
+    # The default value for this is Off. It has an impact on the behaviour of
+    # the SERVER_NAME variable in rewrite rules and we don't want to be taken
+    # by surprise if the server default was changed. So we set it to Off even
+    # though it already is Off.
+    UseCanonicalName Off
+    
+    SSLEngine on
+    SSLProxyEngine on
+    SSLProxyVerify none
+    SSLProxyCheckPeerCN off
+    SSLProxyCheckPeerName off
+    SSLProxyCheckPeerExpire off
+
+    SSLProtocol all -SSLv2 -SSLv3
+    SSLHonorCipherOrder on
+    SSLCipherSuite "EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH+aRSA+RC4 EECDH EDH+aRSA RC4 !aNULL !eNULL !LOW !3DES !MD5 !EXP !PSK !SRP !DSS"
+
+    SSLCertificateFile /etc/ssl/certs/{{ cert_name }}.pem
+    SSLCertificateKeyFile /etc/ssl/private/{{ cert_name }}.key
+    {% if cert_name != 'ssl-cert-snakeoil' %}
+    SSLCertificateChainFile /etc/ssl/certs/{{ cert_name }}-intermediates.pem
+    {% endif %}
 
     #Header always set Strict-Transport-Security "max-age=63072000; includeSubDomains"
     Header always set X-Frame-Options SAMEORIGIN
@@ -30,6 +66,8 @@
     </Location>
 
     Options -Indexes
+    
+    RequestHeader set X-Forwarded-Proto "https"
 
     ProxyPass /static !
     Alias /static {{ app_path }}/static 

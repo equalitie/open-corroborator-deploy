@@ -4,7 +4,9 @@
 
  server_name: vm.corroborator.org
  
- run_grunt: yes
+ cert_name: ssl-cert-snakeoil
+ 
+ run_grunt: no
  
  # TODO move to vault
  db_password: password
