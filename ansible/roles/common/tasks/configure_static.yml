@@ -1,6 +1,8 @@
 ---
 
 - name: Remove node_modules (so collectstatic doesn't fail to remove it)
+  #note: would be good to avoid this for faster re-deploys when run_grunt=yes, but
+  #      doing so via permissions (allowing collectstatic to delete) stops node/npm finding grunt files/modules
   file: path={{ app_path }}/static/js/node_modules state=absent
   when: run_collectstatic
 

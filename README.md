@@ -49,7 +49,7 @@ To destroy the local VM:
 vagrant destroy server1
 ```
 
-## Other install
+## Create another installation
 To use Ansible to install the stack to another target/environment, e.g. _ENV_:
 
 ### Create deployment files
@@ -63,7 +63,8 @@ webservers
 ```
 
  * create an Ansible groups_vars/ENV directory and main.yml file to give the server name, git branch, database password, etc.
- 
+
+### Create settings file
 In the open-corroborator project:
 
  * create a Django settings file, corroborator/settings/ENV.py, to give the media locations, initial (non-secret) database password, etc.
@@ -71,7 +72,15 @@ In the open-corroborator project:
 By default, uploaded media files are stored and served from the local disk. To store them in Amazon S3, set `QUEUED_STORAGE=True` in the Django settings file and set the `AWS_ACCESS_KEY_ID` and `AWS_STORAGE_BUCKET_NAME`).
 If PROD_BUILD is set to True (to use a prebuilt javascript file), you should also set the Ansible variable `run_grunt: yes` (to make sure the file is rebuilt on the server)
 
-### Deploy
+## Deploy
+Put the SSL certificate files (or links to them) in the following locations (not necessary for the VM deployment):
+
+   * /etc/ssl/private/corroborator.key
+   * /etc/ssl/certs/corroborator.pem
+   * /etc/ssl/certs/corroborator-intermediates.pem
+
+Then use Ansible to deploy everything:
+
 ```
 cd ansible
 ansible-playbook -i ENV site.yml -K
@@ -91,4 +100,5 @@ Then make secure by setting the secret settings: login to the target machine and
    sudo service corroborator-celery restart
    ```
 
-To test, visit the ENV server in a browser and login as 'admin' with a password of 'password'.
+To test, visit the ENV server in a browser and login as 'demo' with a password of 'demo'.
+The 'admin' user password is intially set to 'password'.
