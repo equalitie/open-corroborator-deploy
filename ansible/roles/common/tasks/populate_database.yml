@@ -9,7 +9,7 @@
 
 - name: Run South migrations
   django_manage:
-    command: migrate
+    command: migrate --fake-initial
     app_path: "{{ app_path }}/bin"
     virtualenv: "{{ app_path }}"
     settings: "{{ project_name }}.settings.{{ deploy_env }}"
