@@ -88,7 +88,7 @@ ansible-playbook -i ENV site.yml -K
 
 Then make secure by setting the secret settings: login to the target machine and:
  
-   a. manually change the secret database password settings etc. in `/var/local/sites/corroborator/lib/python2.7/site-packages/corroborator/settings/ENV.py`
+   a. manually change the secret database password settings, SECRET__KEY, etc. in `/var/local/sites/corroborator/lib/python2.7/site-packages/corroborator/settings/ENV.py`
       (including `AWS_SECRET_ACCESS_KEY` if S3 queued storage is being used)
       
    b. change the mysql database password to suit
@@ -99,6 +99,8 @@ Then make secure by setting the secret settings: login to the target machine and
    sudo service corroborator-gunicorn restart
    sudo service corroborator-celery restart
    ```
+
+   d. change the default 'demo' and 'admin' user passwords (see below)
 
 To test, visit the ENV server in a browser and login as 'demo' with a password of 'demo'.
 The 'admin' user password is intially set to 'password'.
