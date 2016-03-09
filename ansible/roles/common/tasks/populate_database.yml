@@ -1,13 +1,6 @@
 ---
 
-- name: Run the syncdb command
-  django_manage:
-    command: syncdb
-    app_path: "{{ app_path }}/bin"
-    virtualenv: "{{ app_path }}"
-    settings: "{{ project_name }}.settings.{{ deploy_env }}"
-
-- name: Run South migrations
+- name: Run migrations
   django_manage:
     command: migrate --fake-initial
     app_path: "{{ app_path }}/bin"
