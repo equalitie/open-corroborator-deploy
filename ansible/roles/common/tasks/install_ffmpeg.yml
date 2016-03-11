@@ -1,5 +1,5 @@
 ---
-# Based on: https://trac.ffmpeg.org/wiki/UbuntuCompilationGuide
+# Based on: https://trac.ffmpeg.org/wiki/CompilationGuide/Ubuntu
 
 - name: Install ffmpeg dependencies
   apt: name={{ item }} state=present
@@ -17,6 +17,7 @@
     - texi2html 
     - zlib1g-dev
     - libmp3lame-dev
+  tags: packages
   when: ffmpeg
 
 - name: Clone latest yasm
@@ -127,6 +128,7 @@
 
 - name: Compile ffmpeg
   command: "{{ item }}" 
+  sudo: yes
   args:
     chdir: "{{ checkout_path }}/ffmpeg" 
     creates: "{{ bin_dir }}/ffmpeg"

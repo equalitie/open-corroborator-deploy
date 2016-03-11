@@ -16,6 +16,8 @@
 
 - include: configure_celery.yml
 
+- include: install_ffmpeg.yml
+
 - include: configure_firewall.yml
 
 

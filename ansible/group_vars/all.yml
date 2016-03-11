@@ -8,6 +8,8 @@ backend_internal_ip: "127.0.0.1"
 run_collectstatic: yes
 load_fixtures: yes
 run_grunt: no  #note: set to yes if PROD_BUILD setting is True
+ffmpeg: yes
+
 
 
 # Repo
@@ -22,6 +24,10 @@ sites_path: "/var/local/sites"
 app_path: "{{ sites_path }}/{{ project_name }}"
 requirements_file: "{{ checkout_path }}/{{ project_name }}/requirements.txt"
 cert_name: "{{ project_name }}"
+
+lib_dir: "/usr/local/lib"
+bin_dir: "/usr/local/bin"
+
 
 # Database
 # ========
