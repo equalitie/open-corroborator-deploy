@@ -1,0 +1,138 @@
+---
+# Based on: https://trac.ffmpeg.org/wiki/UbuntuCompilationGuide
+
+- name: Install ffmpeg dependencies
+  apt: name={{ item }} state=present
+  with_items:
+    - git-core
+    - autoconf 
+    - automake 
+    - build-essential 
+    - libass-dev 
+    - libgpac-dev
+    - libtheora-dev 
+    - libtool 
+    - libvorbis-dev 
+    - pkg-config 
+    - texi2html 
+    - zlib1g-dev
+    - libmp3lame-dev
+  when: ffmpeg
+
+- name: Clone latest yasm
+  git: repo=git://github.com/yasm/yasm.git 
+       dest={{ checkout_path }}/yasm 
+       version=v1.3.0
+       accept_hostkey=yes
+  when: ffmpeg
+
+- name: Clone latest fdk-aac
+  git: repo=git://github.com/mstorsjo/fdk-aac.git
+       dest={{ checkout_path }}/fdk-aac
+       version=v0.1.4
+       accept_hostkey=yes
+  when: ffmpeg
+
+- name: Clone latest x264
+  git: repo=git://git.videolan.org/x264.git
+       dest={{ checkout_path }}/x264
+       version=stable
+       accept_hostkey=yes
+  when: ffmpeg
+
+- name: Clone latest libvpx
+  git: repo=https://chromium.googlesource.com/webm/libvpx.git
+       dest={{ checkout_path }}/libvpx
+       version=v1.5.0
+       accept_hostkey=yes
+  when: ffmpeg
+
+- name: Clone latest ffmpeg
+  git: repo=git://source.ffmpeg.org/ffmpeg.git
+       dest={{ checkout_path }}/ffmpeg
+       version=n3.0
+       accept_hostkey=yes
+  when: ffmpeg
+
+- name: Clone latest opus
+  git: repo=git://git.opus-codec.org/opus.git
+       dest={{ checkout_path }}/opus
+       version=v1.1.2
+       accept_hostkey=yes
+  when: ffmpeg
+
+
+- name: Compile yasm 
+  command: "{{ item }}"
+  args:
+    chdir: "{{ checkout_path }}/yasm" 
+    creates: "{{ bin_dir }}/yasm"
+  with_items:
+    - ./autogen.sh
+    - ./configure --bindir={{ bin_dir }}
+    - make
+    - make install
+    - make distclean
+  when: ffmpeg
+
+- name: Compile x264
+  command: "{{ item }}" 
+  args:
+    chdir: "{{ checkout_path }}/x264" 
+    creates: "{{ bin_dir }}/x264"
+  with_items:
+    - ./configure --bindir={{ bin_dir }} --enable-static
+    - make
+    - make install
+    - make distclean
+  when: ffmpeg
+
+- name: Compile fdk-aac
+  command: "{{ item }}" 
+  args:
+    chdir: "{{ checkout_path }}/fdk-aac" 
+    creates: "{{ lib_dir }}/libfdk-aac.a"
+  with_items:
+    - autoreconf -fiv
+    - ./configure --disable-shared
+    - make
+    - make install
+    - make distclean
+  when: ffmpeg
+
+- name: Compile libopus
+  command: "{{ item }}" 
+  args:
+    chdir: "{{ checkout_path }}/opus" 
+    creates: "{{ lib_dir }}/libopus.a"
+  with_items:
+    - ./autogen.sh
+    - ./configure --disable-shared
+    - make
+    - make install
+    - make distclean
+  when: ffmpeg
+
+- name: Compile libvpx
+  command: "{{ item }}" 
+  args:
+    chdir: "{{ checkout_path }}/libvpx" 
+    creates: "{{ lib_dir }}/libvpx.a"
+  with_items:
+    - ./configure --disable-shared
+    - make
+    - make install
+    - make clean
+  when: ffmpeg
+
+- name: Compile ffmpeg
+  command: "{{ item }}" 
+  args:
+    chdir: "{{ checkout_path }}/ffmpeg" 
+    creates: "{{ bin_dir }}/ffmpeg"
+  with_items:
+    - ./configure --bindir={{ bin_dir }} --extra-libs=-ldl --enable-gpl --enable-libass --enable-libfdk-aac --enable-libmp3lame --enable-libopus --enable-libtheora --enable-libvorbis --enable-libvpx --enable-libx264 --enable-nonfree
+    - make
+    - make install
+    - make distclean
+  when: ffmpeg
