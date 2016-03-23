@@ -4,5 +4,5 @@
   mysql_user: name={{ db_user }} password={{ db_password }} priv=*.*:ALL,GRANT state=present
 
 - name: Create Database
-  mysql_db: name={{ db_name }} state=present
+  mysql_db: name={{ db_name }} state=present encoding=utf8 collation=utf8_general_ci
 
