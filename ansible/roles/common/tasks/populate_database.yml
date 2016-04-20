@@ -21,6 +21,7 @@
     - auth.json
     - demo_user.json
     - crimes.json
+    - locations_UA.json
   when: load_fixtures
   
 - name: Create API key
